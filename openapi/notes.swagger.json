@@ -1,0 +1,136 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "notes.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Notes"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/resource": {
+      "post": {
+        "summary": "Saving a note",
+        "operationId": "Notes_Save",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbNoteSaveReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbNote"
+            }
+          }
+        ],
+        "tags": [
+          "Notes"
+        ]
+      }
+    },
+    "/v1/resource/{keyword}": {
+      "get": {
+        "summary": "Retrieving a note",
+        "operationId": "Notes_Load",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbNote"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Notes"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbNote": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string",
+          "title": "Changed from bytes to string"
+        }
+      },
+      "title": "The request message containing the note title"
+    },
+    "pbNoteSaveReply": {
+      "type": "object",
+      "properties": {
+        "saved": {
+          "type": "boolean"
+        }
+      },
+      "title": "The response message confirming if the note is saved"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

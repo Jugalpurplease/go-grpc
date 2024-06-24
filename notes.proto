@@ -1,0 +1,38 @@
+
+
+syntax = "proto3";
+
+package pb;
+
+option go_package = "/pb";
+
+import "google/api/annotations.proto";
+
+// The notes service definition.
+service Notes {
+  // Saving a note
+  rpc Save(Note) returns (NoteSaveReply) {
+    option (google.api.http) = {
+      post : "/v1/resource"
+      body : "*"
+    };
+  }
+  // Retrieving a note
+  rpc Load(NoteSearch) returns (Note) {
+    option (google.api.http) = {
+      get : "/v1/resource/{keyword}"
+    };
+  }
+}
+
+// The request message containing the note title
+message Note {
+  string title = 1;
+  string body = 2; // Changed from bytes to string
+}
+
+// The response message confirming if the note is saved
+message NoteSaveReply { bool saved = 1; }
+
+// The request message containing the note title
+message NoteSearch { string keyword = 1; }
